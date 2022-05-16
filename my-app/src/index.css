@@ -1,3 +1,7 @@
+html {
+    scroll-behavior: smooth;
+}
+
 .main-container {
     width: 100vw;
     height: 100vh;
@@ -9,12 +13,52 @@
     justify-content: center;
     align-items: center;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+.menu-area {
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.button-area {
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
+.goback-button {
+    
+}
+
+.play-button {
+    background-color: #92d9e0;
+    color: white;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-style: none;
+    border-radius: 15px;
+}
+
+.play-button:hover {
+    background-color: #72bdc4;
 }
 
 .number-container {
     width: 60px;
     height: 60px;
-    border-color: black;
+    border-color: #72bdc4;
     border-width: thin;
     border-style: solid;
     display: flex;
@@ -23,10 +67,42 @@
     align-items: center;
 }
 
+.reset-button {
+    color: white;
+    background-color: #92d9e0;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-style: none;
+    border-radius: 10px;
+    margin-left: 30px;
+}
+
+.goback-button {
+    color: white;
+    background-color: #92d9e0;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-style: none;
+    border-radius: 10px;
+    margin-right: 30px;
+}
+
+.text-button {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.text-button-small {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+}
+
 .square-container {
-    border-color: black;
+    border-color: #72bdc4;
     border-style: solid;
-    border-width: medium;
+    border-width: thin;
     width: 180px;
 }
 
@@ -39,7 +115,7 @@
     font-size: 50px;
     font-weight: 800;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    color: lightblue;
+    color: #92d9e0;
 }
 
 .number-1 {
@@ -47,4 +123,5 @@
     font-family: sans-serif;
     font-weight: 600;
     font-size: 30px;
+    color: #717575;
 }
