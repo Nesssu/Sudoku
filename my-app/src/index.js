@@ -14,19 +14,19 @@ const Square = (props) => {
     return (
         <div className="square-container vertical-direction">
             <div className="horizontal-direction">
-                <Number value={props.numbers[props.main][0]}/>
-                <Number value={props.numbers[props.main][1]}/>
-                <Number value={props.numbers[props.main][2]}/>
+                <Number value={props.numbers[props.main][props.secondary]}/>
+                <Number value={props.numbers[props.main][props.secondary + 1]}/>
+                <Number value={props.numbers[props.main][props.secondary + 2]}/>
             </div>
             <div className="horizontal-direction">
-                <Number value={props.numbers[props.main][3]}/>
-                <Number value={props.numbers[props.main][4]}/>
-                <Number value={props.numbers[props.main][5]}/>
+                <Number value={props.numbers[props.main + 1][props.secondary]}/>
+                <Number value={props.numbers[props.main + 1][props.secondary + 1]}/>
+                <Number value={props.numbers[props.main + 1][props.secondary + 2]}/>
             </div>
             <div className="horizontal-direction">
-                <Number value={props.numbers[props.main][6]}/>
-                <Number value={props.numbers[props.main][7]}/>
-                <Number value={props.numbers[props.main][8]}/>
+                <Number value={props.numbers[props.main + 2][props.secondary]}/>
+                <Number value={props.numbers[props.main + 2][props.secondary + 1]}/>
+                <Number value={props.numbers[props.main + 2][props.secondary + 2]}/>
             </div>
         </div>
     );
@@ -36,19 +36,19 @@ const Table = (props) => {
     return (
         <div className="table-container vertical-direction">
             <div className="horizontal-direction">
-                <Square main={0} numbers={props.table}/>
-                <Square main={1} numbers={props.table}/>
-                <Square main={2} numbers={props.table}/>
+                <Square main={0} secondary={0} numbers={props.table}/>
+                <Square main={0} secondary={3} numbers={props.table}/>
+                <Square main={0} secondary={6} numbers={props.table}/>
             </div>
             <div className="horizontal-direction">
-                <Square main={3} numbers={props.table}/>
-                <Square main={4} numbers={props.table}/>
-                <Square main={5} numbers={props.table}/>
+                <Square main={3} secondary={0} numbers={props.table}/>
+                <Square main={3} secondary={3} numbers={props.table}/>
+                <Square main={3} secondary={6} numbers={props.table}/>
             </div>
             <div className="horizontal-direction">
-                <Square main={6} numbers={props.table}/>
-                <Square main={7} numbers={props.table}/>
-                <Square main={8} numbers={props.table}/>
+                <Square main={6} secondary={0} numbers={props.table}/>
+                <Square main={6} secondary={3} numbers={props.table}/>
+                <Square main={6} secondary={6} numbers={props.table}/>
             </div>
         </div>
     );
@@ -57,187 +57,94 @@ const Table = (props) => {
 const scrollToGame = () => {
     let elem = document.getElementById("game");
     elem.scrollIntoView();
+};
+
+const range = (min, max) => [...Array(max - min + 1).keys()].map(i => i + min);
+
+function sample(arr, size) {
+    var shuffled = arr.slice(0), i = arr.length, temp, index;
+    while (i--) {
+        index = Math.floor((i + 1) * Math.random());
+        temp = shuffled[index];
+        shuffled[index] = shuffled[i];
+        shuffled[i] = temp;
+    }
+    return shuffled.slice(0, size);
 }
 
-const generateTable = (table, ) => {
-    let mainIndex = 0;
-    let secondaryIndex = 0;
-
-    while (1) {
-        var randomNum = Math.floor(Math.random() * 9) + 1;
-        if (isValid(table, randomNum)) {
-            table[mainIndex][secondaryIndex] = randomNum;
-            secondaryIndex++;
-            if (secondaryIndex >= 9) {
-                secondaryIndex = 0;
-                mainIndex++;
-                if (mainIndex >= 9) {
-                    break;
-                }
-            }
+function shuffle(array) {
+    let currentIndex = array.length,  randomIndex;
+    while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+        [array[currentIndex], array[randomIndex]] = [
+            array[randomIndex], array[currentIndex]];
         }
-
-    }
+    return array;
 }
 
-const isValid = (table, number) => {
-    console.log("test");
-    return true;
+function pattern(r, c, base, side) {
+    return (base * (r % base) + Math.floor(r / base) + c) % side;
 }
 
-function isSafe(board, row, col, num)
-{
-     
-    // Row has the unique (row-clash)
-    for(let d = 0; d < board.length; d++)
-    {
-        // Check if the number we are trying to
-        // place is already present in
-        // that row, return false;
-        if (board[row][d] == num)
-        {
-            return false;
+function makingBoard() {
+    let base = 3;
+    let side = base * base;
+    let rbase = range(0, base);
+    let rows = [];
+    for (var g = 0; g < base; g++) {
+        for (var r = 0; r < base; r++) {
+            rows.push(shuffle(rbase)[g] * base + shuffle(rbase)[r]);
         }
     }
- 
-    // Column has the unique numbers (column-clash)
-    for(let r = 0; r < board.length; r++)
-    {
-        // Check if the number
-        // we are trying to
-        // place is already present in
-        // that column, return false;
-        if (board[r][col] == num)
-        {
-            return false;
+    let cols = [];
+    for (var g = 0; g < base; g++) {
+        for (var c = 0; c < base; c++) {
+            cols.push(shuffle(rbase)[g] * base + shuffle(rbase)[c]);
         }
     }
-    // Corresponding square has
-    // unique number (box-clash)
-    let sqrt = Math.floor(Math.sqrt(board.length));
-    let boxRowStart = row - row % sqrt;
-    let boxColStart = col - col % sqrt;
- 
-    for(let r = boxRowStart;
-            r < boxRowStart + sqrt; r++)
-    {
-        for(let d = boxColStart;
-                d < boxColStart + sqrt; d++)
-        {
-            if (board[r][d] == num)
-            {
-                return false;
+    let nums = shuffle(range(1, base * base + 1));
+    var board;
+    board = function () {
+        var _pj_a = [], _pj_b = rows;
+        for (var _pj_c = 0, _pj_d = _pj_b.length; _pj_c < _pj_d; _pj_c += 1) {
+            var r = _pj_b[_pj_c];
+            _pj_a.push(function () {
+            var _pj_e = [],
+            _pj_f = cols;
+            for (var _pj_g = 0, _pj_h = _pj_f.length; _pj_g < _pj_h; _pj_g += 1) {
+                var c = _pj_f[_pj_g];
+                _pj_e.push(nums[pattern(r, c, base, side)]);
             }
+            return _pj_e;
+            }.call(this));
         }
+        return _pj_a;
+    }.call(this);
+    let squares = side * side;
+    let empties = squares * Math.floor(3 / 4);
+    for (var p, _pj_c = 0, _pj_a = sample(range(0, squares), empties), _pj_b = _pj_a.length; _pj_c < _pj_b; _pj_c += 1) {
+        p = _pj_a[_pj_c];
+        board[Math.floor(p / side)][p % side] = 0;
     }
-    // If there is no clash, it's safe
-    return true;
-}
- 
-function solveSudoku(board, n)
-{
-    let row = -1;
-    let col = -1;
-    let isEmpty = true;
-    for(let i = 0; i < n; i++)
-    {
-        for(let j = 0; j < n; j++)
-        {
-            if (board[i][j] == 0)
-            {
-                row = i;
-                col = j;
-                // We still have some remaining
-                // missing values in Sudoku
-                isEmpty = false;
-                break;
-            }
-        }
-        if (!isEmpty)
-        {
-            break;
-        }
-    }
- 
-    // No empty space left
-    if (isEmpty)
-    {
-        return true;
-    }
- 
-    // Else for each-row backtrack
-    for(let num = 1; num <= n; num++)
-    {
-        if (isSafe(board, row, col, num))
-        {
-            board[row][col] = num;
-            if (solveSudoku(board, n))
-            {
-                // print(board, n);
-                return true;
-            }
-            else
-            {
-                // Replace it
-                board[row][col] = 0;
-            }
-        }
-    }
-    return false;
-}
- 
-function print(board, N)
-{    
-    // We got the answer, just print it
-    for(let r = 0; r < N; r++)
-    {
-        for(let d = 0; d < N; d++)
-        {
-            document.write(board[r][d]);
-            document.write(" ");
-        }
-        document.write("<br>");
- 
-        if ((r + 1) % Math.floor(Math.sqrt(N)) == 0)
-        {
-            document.write("");
-        }
-    }
-}
- 
-// Driver Code
-let board = [ [ 3, 0, 6, 5, 0, 8, 4, 0, 0 ],
-              [ 5, 2, 0, 0, 0, 0, 0, 0, 0 ],
-              [ 0, 8, 7, 0, 0, 0, 0, 3, 1 ],
-              [ 0, 0, 3, 0, 1, 0, 0, 8, 0 ],
-              [ 9, 0, 0, 8, 6, 3, 0, 0, 5 ],
-              [ 0, 5, 0, 0, 9, 0, 6, 0, 0 ],
-              [ 1, 3, 0, 0, 0, 0, 2, 5, 0 ],
-              [ 0, 0, 0, 0, 0, 0, 0, 7, 4 ],
-              [ 0, 0, 5, 2, 0, 6, 3, 0, 0 ] ];
-         
-let N = board.length;
- 
-if (solveSudoku(board, N))
-{
-    // Print solution
-    print(board, N);
-}
-else
-{
-    document.write("No solution");
+    return board;
 }
 
 class Game extends React.Component {
-    table = [[0, 0, 0, 0, 0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 1, 0, 0, 0, 0],
-             [0, 0, 0, 0, 2, 0, 0, 0, 0],
-             [0, 0, 0, 0, 3, 0, 0, 0, 0],
-             [0, 0, 0, 0, 4, 0, 0, 0, 0],
-             [0, 0, 0, 0, 5, 0, 0, 0, 0],
-             [0, 0, 0, 0, 6, 0, 0, 0, 0],
-             [0, 0, 0, 0, 7, 0, 0, 0, 0],
-             [0, 0, 0, 0, 8, 0, 0, 0, 0]];
+    /*
+    table = [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 0, 0, 2, 0, 0, 3, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 4, 0, 0, 5, 0, 0, 6, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 7, 0, 0, 8, 0, 0, 9, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ];
+    */
+    table = makingBoard();
 
     render () {
         return (
@@ -250,9 +157,9 @@ class Game extends React.Component {
                 </div>
                 <div className="game-area" id="game">
                     <h1 className="headline-1">Sudoku</h1>
-                    <Table table={board}/>
+                    <Table table={this.table}/>
                     <div className="button-area">
-                        <button className="goback-button">
+                        <button className="goback-button" onClick={makingBoard}>
                             <p className="text-button-small">Go back</p>
                         </button>
                         <button className="reset-button">
