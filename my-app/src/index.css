@@ -36,10 +36,6 @@ html {
     flex-direction: row;
 }
 
-.goback-button {
-    
-}
-
 .play-button {
     background-color: #92d9e0;
     color: white;
@@ -124,4 +120,8 @@ html {
     font-weight: 600;
     font-size: 30px;
     color: #717575;
+}
+
+.not-playable {
+    background-color: #edfeff;
 }
