@@ -3,9 +3,22 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import makingBoard from './makingBoard';
 
-const handleClick = (id) => {
-    let elem = document.getElementById(id);
-    
+const handleSelect = (id, getLastIndex, setLastIndex) => {
+    let elemToAdd = document.getElementById(id);
+    let oldIndex = getLastIndex();
+    let elem = document.createElement('Circle');
+    elem.classList.add("circle");
+    if (oldIndex !== null) {
+        let elemToDelete = document.getElementById(oldIndex);
+        elemToDelete.removeChild(elemToDelete.firstChild);
+    }
+    elemToAdd.appendChild(elem);
+    setLastIndex(id);
+    document.addEventListener('keydown', function(event) {
+        if (event.keyCode <= 57 && event.keyCode >= 49) {
+            elemToAdd.innerHTML = event.key;
+        }
+    });
 }
 
 const Number = (props) => {
@@ -17,7 +30,7 @@ const Number = (props) => {
     }
     if (playable) {
         return (
-            <div className="number-container" id={id} onClick={() => handleClick(id)}>
+            <div className="number-container playable" id={id} onClick={() => handleSelect(id, props.getLastIndex, props.setLastIndex)}>
             </div>
         )
     } else {
@@ -34,19 +47,19 @@ const Square = (props) => {
     return (
         <div className="square-container vertical-direction">
             <div className="horizontal-direction">
-                <Number value={props.numbers[props.main][props.secondary]} first={props.main} second={props.secondary}/>
-                <Number value={props.numbers[props.main][props.secondary + 1]} first={props.main} second={props.secondary + 1}/>
-                <Number value={props.numbers[props.main][props.secondary + 2]} first={props.main} second={props.secondary + 2}/>
+                <Number value={props.numbers[props.main][props.secondary]} first={props.main} second={props.secondary} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
+                <Number value={props.numbers[props.main][props.secondary + 1]} first={props.main} second={props.secondary + 1} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
+                <Number value={props.numbers[props.main][props.secondary + 2]} first={props.main} second={props.secondary + 2} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
             </div>
             <div className="horizontal-direction">
-                <Number value={props.numbers[props.main + 1][props.secondary]} first={props.main + 1} second={props.secondary}/>
-                <Number value={props.numbers[props.main + 1][props.secondary + 1]} first={props.main + 1} second={props.secondary + 1}/>
-                <Number value={props.numbers[props.main + 1][props.secondary + 2]} first={props.main + 1} second={props.secondary + 2}/>
+                <Number value={props.numbers[props.main + 1][props.secondary]} first={props.main + 1} second={props.secondary} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
+                <Number value={props.numbers[props.main + 1][props.secondary + 1]} first={props.main + 1} second={props.secondary + 1} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
+                <Number value={props.numbers[props.main + 1][props.secondary + 2]} first={props.main + 1} second={props.secondary + 2} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
             </div>
             <div className="horizontal-direction">
-                <Number value={props.numbers[props.main + 2][props.secondary]} first={props.main + 2} second={props.secondary}/>
-                <Number value={props.numbers[props.main + 2][props.secondary + 1]} first={props.main + 2} second={props.secondary + 1}/>
-                <Number value={props.numbers[props.main + 2][props.secondary + 2]} first={props.main + 2} second={props.secondary + 2}/>
+                <Number value={props.numbers[props.main + 2][props.secondary]} first={props.main + 2} second={props.secondary} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
+                <Number value={props.numbers[props.main + 2][props.secondary + 1]} first={props.main + 2} second={props.secondary + 1} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
+                <Number value={props.numbers[props.main + 2][props.secondary + 2]} first={props.main + 2} second={props.secondary + 2} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
             </div>
         </div>
     );
@@ -56,19 +69,19 @@ const Table = (props) => {
     return (
         <div className="table-container vertical-direction">
             <div className="horizontal-direction">
-                <Square main={0} secondary={0} numbers={props.table}/>
-                <Square main={0} secondary={3} numbers={props.table}/>
-                <Square main={0} secondary={6} numbers={props.table}/>
+                <Square main={0} secondary={0} numbers={props.table} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
+                <Square main={0} secondary={3} numbers={props.table} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
+                <Square main={0} secondary={6} numbers={props.table} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
             </div>
             <div className="horizontal-direction">
-                <Square main={3} secondary={0} numbers={props.table}/>
-                <Square main={3} secondary={3} numbers={props.table}/>
-                <Square main={3} secondary={6} numbers={props.table}/>
+                <Square main={3} secondary={0} numbers={props.table} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
+                <Square main={3} secondary={3} numbers={props.table} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
+                <Square main={3} secondary={6} numbers={props.table} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
             </div>
             <div className="horizontal-direction">
-                <Square main={6} secondary={0} numbers={props.table}/>
-                <Square main={6} secondary={3} numbers={props.table}/>
-                <Square main={6} secondary={6} numbers={props.table}/>
+                <Square main={6} secondary={0} numbers={props.table} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
+                <Square main={6} secondary={3} numbers={props.table} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
+                <Square main={6} secondary={6} numbers={props.table} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
             </div>
         </div>
     );
@@ -81,6 +94,10 @@ const scrollToGame = () => {
 
 class Game extends React.Component {
     board = makingBoard();
+    lastIndex = null;
+
+    getLastIndex = () => { return this.lastIndex; }
+    setLastIndex = (newIndex) => { this.lastIndex = newIndex; }
 
     render () {
         return (
@@ -93,7 +110,7 @@ class Game extends React.Component {
                 </div>
                 <div className="game-area" id="game">
                     <h1 className="headline-1">Sudoku</h1>
-                    <Table table={this.board}/>
+                    <Table table={this.board} getLastIndex={this.getLastIndex} setLastIndex={this.setLastIndex}/>
                     <div className="button-area">
                         <button className="goback-button">
                             <p className="text-button-small">Go back</p>

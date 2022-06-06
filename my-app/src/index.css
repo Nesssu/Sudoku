@@ -125,3 +125,16 @@ html {
 .not-playable {
     background-color: #edfeff;
 }
+
+.playable {
+    cursor: pointer;
+}
+
+.circle {
+    width: 80%;
+    height: 80%;
+    border-color: #92d9e0;
+    border-width: 3px;
+    border-style: solid;
+    border-radius: 50%;
+}
