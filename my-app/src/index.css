@@ -49,6 +49,7 @@ html {
 
 .play-button:hover {
     background-color: #72bdc4;
+    cursor: pointer;
 }
 
 .number-container {
@@ -128,6 +129,7 @@ html {
 
 .playable {
     cursor: pointer;
+    position: relative;
 }
 
 .circle {
@@ -137,4 +139,5 @@ html {
     border-width: 3px;
     border-style: solid;
     border-radius: 50%;
+    position: absolute;
 }
