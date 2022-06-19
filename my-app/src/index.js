@@ -89,17 +89,21 @@ const scrollToGame = () => {
 };
 
 const Game =() => {
-    const [boardd, makeBoard] = React.useState([]);
+    const [board, makeBoard] = React.useState([]);
     const [lastlySelectedId, setLastlySelectedId] = React.useState(null);
     const [selectedId, setSelectedId] = React.useState(null);
     const getSelectedId = () => { return selectedId; }
     const getLastlySelectedId = () => { return lastlySelectedId; }
-    const board = makingBoard();
+    makeBoard([[1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 2, 3, 4, 5, 6, 7, 8, 9]]);
+    React.useEffect(() => {
+        let tempBoard = makingBoard();
+        makeBoard(tempBoard);
+      }, []);
 
     return (
         <div className="main-container">
             <div className="menu-area">
-                <h1 className="headline-1">Sudoku of the day</h1>
+                <h1 className="headline-1">Sudoku</h1>
                 <button className="play-button" onClick={scrollToGame}>
                     <p className="text-button">Play</p>
                 </button>
