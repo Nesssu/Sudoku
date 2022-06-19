@@ -26,7 +26,7 @@ const Number = (props) => {
     }
     if (playable) {
         return (
-            <div className="number-container playable" id={id} onClick={() => handleSelect(id, props.getLastIndex, props.setLastIndex, props.setSelectedId, props.getSelectedId)}>
+            <div className="number-container playable" id={id} onClick={() => handleSelect(id, props.getLastlySelectedId, props.setLastlySelectedId, props.setSelectedId)}>
             </div>
         )
     } else {
@@ -43,19 +43,19 @@ const Square = (props) => {
     return (
         <div className="square-container vertical-direction">
             <div className="horizontal-direction">
-                <Number value={props.numbers[props.main][props.secondary]} first={props.main} second={props.secondary} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
-                <Number value={props.numbers[props.main][props.secondary + 1]} first={props.main} second={props.secondary + 1} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
-                <Number value={props.numbers[props.main][props.secondary + 2]} first={props.main} second={props.secondary + 2} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
+                <Number value={props.numbers[props.main][props.secondary]} first={props.main} second={props.secondary} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastlySelectedId={props.getLastlySelectedId} setLastlySelectedId={props.setLastlySelectedId}/>
+                <Number value={props.numbers[props.main][props.secondary + 1]} first={props.main} second={props.secondary + 1} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastlySelectedId={props.getLastlySelectedId} setLastlySelectedId={props.setLastlySelectedId}/>
+                <Number value={props.numbers[props.main][props.secondary + 2]} first={props.main} second={props.secondary + 2} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastlySelectedId={props.getLastlySelectedId} setLastlySelectedId={props.setLastlySelectedId}/>
             </div>
             <div className="horizontal-direction">
-                <Number value={props.numbers[props.main + 1][props.secondary]} first={props.main + 1} second={props.secondary} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
-                <Number value={props.numbers[props.main + 1][props.secondary + 1]} first={props.main + 1} second={props.secondary + 1} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
-                <Number value={props.numbers[props.main + 1][props.secondary + 2]} first={props.main + 1} second={props.secondary + 2} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
+                <Number value={props.numbers[props.main + 1][props.secondary]} first={props.main + 1} second={props.secondary} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastlySelectedId={props.getLastlySelectedId} setLastlySelectedId={props.setLastlySelectedId}/>
+                <Number value={props.numbers[props.main + 1][props.secondary + 1]} first={props.main + 1} second={props.secondary + 1} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastlySelectedId={props.getLastlySelectedId} setLastlySelectedId={props.setLastlySelectedId}/>
+                <Number value={props.numbers[props.main + 1][props.secondary + 2]} first={props.main + 1} second={props.secondary + 2} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastlySelectedId={props.getLastlySelectedId} setLastlySelectedId={props.setLastlySelectedId}/>
             </div>
             <div className="horizontal-direction">
-                <Number value={props.numbers[props.main + 2][props.secondary]} first={props.main + 2} second={props.secondary} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
-                <Number value={props.numbers[props.main + 2][props.secondary + 1]} first={props.main + 2} second={props.secondary + 1} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
-                <Number value={props.numbers[props.main + 2][props.secondary + 2]} first={props.main + 2} second={props.secondary + 2} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
+                <Number value={props.numbers[props.main + 2][props.secondary]} first={props.main + 2} second={props.secondary} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastlySelectedId={props.getLastlySelectedId} setLastlySelectedId={props.setLastlySelectedId}/>
+                <Number value={props.numbers[props.main + 2][props.secondary + 1]} first={props.main + 2} second={props.secondary + 1} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastlySelectedId={props.getLastlySelectedId} setLastlySelectedId={props.setLastlySelectedId}/>
+                <Number value={props.numbers[props.main + 2][props.secondary + 2]} first={props.main + 2} second={props.secondary + 2} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastlySelectedId={props.getLastlySelectedId} setLastlySelectedId={props.setLastlySelectedId}/>
             </div>
         </div>
     );
@@ -65,19 +65,19 @@ const Table = (props) => {
     return (
         <div className="table-container vertical-direction">
             <div className="horizontal-direction">
-                <Square main={0} secondary={0} numbers={props.table} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
-                <Square main={0} secondary={3} numbers={props.table} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
-                <Square main={0} secondary={6} numbers={props.table} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
+                <Square main={0} secondary={0} numbers={props.table} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastlySelectedId={props.getLastlySelectedId} setLastlySelectedId={props.setLastlySelectedId}/>
+                <Square main={0} secondary={3} numbers={props.table} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastlySelectedId={props.getLastlySelectedId} setLastlySelectedId={props.setLastlySelectedId}/>
+                <Square main={0} secondary={6} numbers={props.table} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastlySelectedId={props.getLastlySelectedId} setLastlySelectedId={props.setLastlySelectedId}/>
             </div>
             <div className="horizontal-direction">
-                <Square main={3} secondary={0} numbers={props.table} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
-                <Square main={3} secondary={3} numbers={props.table} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
-                <Square main={3} secondary={6} numbers={props.table} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
+                <Square main={3} secondary={0} numbers={props.table} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastlySelectedId={props.getLastlySelectedId} setLastlySelectedId={props.setLastlySelectedId}/>
+                <Square main={3} secondary={3} numbers={props.table} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastlySelectedId={props.getLastlySelectedId} setLastlySelectedId={props.setLastlySelectedId}/>
+                <Square main={3} secondary={6} numbers={props.table} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastlySelectedId={props.getLastlySelectedId} setLastlySelectedId={props.setLastlySelectedId}/>
             </div>
             <div className="horizontal-direction">
-                <Square main={6} secondary={0} numbers={props.table} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
-                <Square main={6} secondary={3} numbers={props.table} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
-                <Square main={6} secondary={6} numbers={props.table} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastIndex={props.getLastIndex} setLastIndex={props.setLastIndex}/>
+                <Square main={6} secondary={0} numbers={props.table} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastlySelectedId={props.getLastlySelectedId} setLastlySelectedId={props.setLastlySelectedId}/>
+                <Square main={6} secondary={3} numbers={props.table} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastlySelectedId={props.getLastlySelectedId} setLastlySelectedId={props.setLastlySelectedId}/>
+                <Square main={6} secondary={6} numbers={props.table} getSelectedId={props.getSelectedId} setSelectedId={props.setSelectedId} getLastlySelectedId={props.getLastlySelectedId} setLastlySelectedId={props.setLastlySelectedId}/>
             </div>
         </div>
     );
@@ -89,13 +89,12 @@ const scrollToGame = () => {
 };
 
 const Game =() => {
-    let board = makingBoard();
-    let lastlySelectedIndex = null;
-    let selectedIndex = null;
-    let getLastIndex = () => { return lastlySelectedIndex; }
-    let setLastIndex = (newIndex) => { lastlySelectedIndex = newIndex; }
-    let getSelectedId = () => { return selectedIndex; }
-    let setSelectedId = (index) => { selectedIndex = index; }
+    const [boardd, makeBoard] = React.useState([]);
+    const [lastlySelectedId, setLastlySelectedId] = React.useState(null);
+    const [selectedId, setSelectedId] = React.useState(null);
+    const getSelectedId = () => { return selectedId; }
+    const getLastlySelectedId = () => { return lastlySelectedId; }
+    const board = makingBoard();
 
     return (
         <div className="main-container">
@@ -107,7 +106,7 @@ const Game =() => {
             </div>
             <div className="game-area" id="game">
                 <h1 className="headline-1">Sudoku</h1>
-                <Table table={board} getSelectedId={getSelectedId} setSelectedId={setSelectedId} getLastIndex={getLastIndex} setLastIndex={setLastIndex}/>
+                <Table table={board} getSelectedId={getSelectedId} setSelectedId={setSelectedId} getLastlySelectedId={getLastlySelectedId} setLastlySelectedId={setLastlySelectedId}/>
                 <div className="button-area">
                     
                 </div>
