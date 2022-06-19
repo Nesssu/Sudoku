@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import makingBoard from './makingBoard';
 
-const handleSelect = (id, getLastIndex, setLastIndex, setSelectedId, getSelectedId) => {
+const handleSelect = (id, getLastIndex, setLastIndex, setSelectedId) => {
     setSelectedId(id);
     let elemToAdd = document.getElementById(id);
     let oldIndex = getLastIndex();
@@ -15,21 +15,12 @@ const handleSelect = (id, getLastIndex, setLastIndex, setSelectedId, getSelected
     }
     elemToAdd.appendChild(elem);
     setLastIndex(id);
-
-    if (getSelectedId() != null && getSelectedId() == id) {
-        let selectedElem = document.getElementById(id);
-        document.addEventListener('keydown', function(event) {
-            if (event.keyCode <= 57 && event.keyCode >= 49) {
-                selectedElem.innerHTML = event.key;
-            }
-        });
-    }
 };
 
 const Number = (props) => {
-    let playable = true;
     let id = "" + props.first + props.second;
     id = parseInt(id);
+    let playable = true;
     if (props.value !== 0) {
         playable = false;
     }
@@ -97,48 +88,33 @@ const scrollToGame = () => {
     elem.scrollIntoView();
 };
 
-class Game extends React.Component {
-    board = makingBoard();
-    lastlySelectedIndex = null;
-    selectedIndex = null;
-    getLastIndex = () => { return this.lastlySelectedIndex; }
-    setLastIndex = (newIndex) => { this.lastlySelectedIndex = newIndex; }
-    getSelectedId = () => { return this.selectedIndex; }
-    setSelectedId = (index) => { this.selectedIndex = index; }
+const Game =() => {
+    let board = makingBoard();
+    let lastlySelectedIndex = null;
+    let selectedIndex = null;
+    let getLastIndex = () => { return lastlySelectedIndex; }
+    let setLastIndex = (newIndex) => { lastlySelectedIndex = newIndex; }
+    let getSelectedId = () => { return selectedIndex; }
+    let setSelectedId = (index) => { selectedIndex = index; }
 
-    render () {
-        if (this.selectedIndex != null) {
-            let selectedElem = document.getElementById(this.selectedIndex);
-            document.addEventListener('keydown', function(event) {
-                if (event.keyCode <= 57 && event.keyCode >= 49) {
-                    selectedElem.innerHTML = event.key;
-                }
-            });
-        }
-        return (
-            <div className="main-container">
-                <div className="menu-area">
-                    <h1 className="headline-1">Sudoku of the day</h1>
-                    <button className="play-button" onClick={scrollToGame}>
-                        <p className="text-button">Play</p>
-                    </button>
-                </div>
-                <div className="game-area" id="game">
-                    <h1 className="headline-1">Sudoku</h1>
-                    <Table table={this.board} getSelectedId={this.getSelectedId} setSelectedId={this.setSelectedId} getLastIndex={this.getLastIndex} setLastIndex={this.setLastIndex}/>
-                    <div className="button-area">
-                        <button className="goback-button">
-                            <p className="text-button-small">Go back</p>
-                        </button>
-                        <button className="reset-button">
-                            <p className="text-button-small">Reset</p>
-                        </button>
-                    </div>
+    return (
+        <div className="main-container">
+            <div className="menu-area">
+                <h1 className="headline-1">Sudoku of the day</h1>
+                <button className="play-button" onClick={scrollToGame}>
+                    <p className="text-button">Play</p>
+                </button>
+            </div>
+            <div className="game-area" id="game">
+                <h1 className="headline-1">Sudoku</h1>
+                <Table table={board} getSelectedId={getSelectedId} setSelectedId={setSelectedId} getLastIndex={getLastIndex} setLastIndex={setLastIndex}/>
+                <div className="button-area">
+                    
                 </div>
             </div>
-        )
-    }
-};
+        </div>
+    )
+}
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<Game/>);
