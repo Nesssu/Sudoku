@@ -83,40 +83,70 @@ const Table = (props) => {
     );
 };
 
-const scrollToGame = () => {
+const startTheGame = (makeBoard) => {
+    makeBoard(makingBoard);
     let elem = document.getElementById("game");
     elem.scrollIntoView();
 };
 
 const Game =() => {
-    const [board, makeBoard] = React.useState([]);
+    const [board, makeBoard] = React.useState(null);
     const [lastlySelectedId, setLastlySelectedId] = React.useState(null);
     const [selectedId, setSelectedId] = React.useState(null);
+    const [update, setUpdate] = React.useState(0);
+    const [gameStarted, setGameStarted] = React.useState(0);
+
     const getSelectedId = () => { return selectedId; }
     const getLastlySelectedId = () => { return lastlySelectedId; }
-    makeBoard([[1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 2, 3, 4, 5, 6, 7, 8, 9]]);
-    React.useEffect(() => {
-        let tempBoard = makingBoard();
-        makeBoard(tempBoard);
-      }, []);
+    const separateId = () => {
+        let combinedID = null;
+        if (selectedId != null) {
+            if (selectedId.length > 1) {
+                combinedID = "" + "0" + selectedId;
+            } else {
+                combinedID = "" + parseInt(selectedId / 10) + (selectedId % 10);
+            }
+        }
+        return combinedID;
+    }
 
-    return (
-        <div className="main-container">
-            <div className="menu-area">
-                <h1 className="headline-1">Sudoku</h1>
-                <button className="play-button" onClick={scrollToGame}>
-                    <p className="text-button">Play</p>
-                </button>
-            </div>
-            <div className="game-area" id="game">
-                <h1 className="headline-1">Sudoku</h1>
-                <Table table={board} getSelectedId={getSelectedId} setSelectedId={setSelectedId} getLastlySelectedId={getLastlySelectedId} setLastlySelectedId={setLastlySelectedId}/>
-                <div className="button-area">
-                    
+    let IdToAdd = separateId();
+    if (IdToAdd != null) {
+        console.log("main: " + IdToAdd[0] + " | secondary: " + IdToAdd[1]);
+    }
+
+    window.addEventListener('keydown', (event) => {
+        if (event.key >= 0 && event.key <= 9) {
+            let IdToAdd = separateId();
+            if (IdToAdd != null) {
+                console.log("main: " + IdToAdd[0] + " | secondary: " + IdToAdd[1]);
+            }
+        }
+    });
+
+    if (gameStarted == 0) {
+        makeBoard([[0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0]]);
+        setGameStarted(1);
+    }
+    if (board != null) {
+        return (
+            <div className="main-container">
+                <div className="menu-area">
+                    <h1 className="headline-1">Sudoku</h1>
+                    <button className="play-button" onClick={() => startTheGame(makeBoard)}>
+                        <p className="text-button">Play</p>
+                    </button>
+                </div>
+                <div className="game-area" id="game">
+                    <h1 className="headline-1">Sudoku</h1>
+                    <Table table={board} getSelectedId={getSelectedId} setSelectedId={setSelectedId} getLastlySelectedId={getLastlySelectedId} setLastlySelectedId={setLastlySelectedId}/>
+                    <div className="button-area">
+                        
+                    </div>
                 </div>
             </div>
-        </div>
-    )
+        )
+    };
 }
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
