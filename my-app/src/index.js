@@ -83,8 +83,7 @@ const Table = (props) => {
     );
 };
 
-const startTheGame = (makeBoard) => {
-    makeBoard(makingBoard);
+const startTheGame = () => {
     let elem = document.getElementById("game");
     elem.scrollIntoView();
 };
@@ -93,8 +92,6 @@ const Game =() => {
     const [board, makeBoard] = React.useState(null);
     const [lastlySelectedId, setLastlySelectedId] = React.useState(null);
     const [selectedId, setSelectedId] = React.useState(null);
-    const [update, setUpdate] = React.useState(0);
-    const [gameStarted, setGameStarted] = React.useState(0);
 
     const getSelectedId = () => { return selectedId; }
     const getLastlySelectedId = () => { return lastlySelectedId; }
@@ -110,6 +107,10 @@ const Game =() => {
         return combinedID;
     }
 
+    React.useEffect(() => {
+        makeBoard(makingBoard);
+    }, []);
+
     let IdToAdd = separateId();
     if (IdToAdd != null) {
         console.log("main: " + IdToAdd[0] + " | secondary: " + IdToAdd[1]);
@@ -123,17 +124,12 @@ const Game =() => {
             }
         }
     });
-
-    if (gameStarted == 0) {
-        makeBoard([[0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0]]);
-        setGameStarted(1);
-    }
     if (board != null) {
         return (
             <div className="main-container">
                 <div className="menu-area">
                     <h1 className="headline-1">Sudoku</h1>
-                    <button className="play-button" onClick={() => startTheGame(makeBoard)}>
+                    <button className="play-button" onClick={() => startTheGame()}>
                         <p className="text-button">Play</p>
                     </button>
                 </div>
