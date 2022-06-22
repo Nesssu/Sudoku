@@ -107,13 +107,20 @@ const Game =() => {
         return combinedID;
     }
 
+    // RUNS ONCE EVERYTIME THE PAGE GETS RELOADED
     React.useEffect(() => {
-        makeBoard(makingBoard);
+        var ifNewGame = JSON.parse(localStorage.getItem("newGame"));
+        if (ifNewGame == undefined) {
+            localStorage.setItem("newGame", JSON.stringify(true));
+            makeBoard(makingBoard);
+        } else {
+            makeBoard(JSON.parse(localStorage.getItem("gameBoard")));
+        }
     }, []);
 
-    let IdToAdd = separateId();
-    if (IdToAdd != null) {
-        console.log("main: " + IdToAdd[0] + " | secondary: " + IdToAdd[1]);
+    if (board != null) {
+        localStorage.setItem("gameBoard", JSON.stringify(board));
+        console.log(board);
     }
 
     window.addEventListener('keydown', (event) => {
@@ -137,7 +144,9 @@ const Game =() => {
                     <h1 className="headline-1">Sudoku</h1>
                     <Table table={board} getSelectedId={getSelectedId} setSelectedId={setSelectedId} getLastlySelectedId={getLastlySelectedId} setLastlySelectedId={setLastlySelectedId}/>
                     <div className="button-area">
-                        
+                        <button onClick={() => {makeBoard(makingBoard())}}>
+                            New Game
+                        </button>
                     </div>
                 </div>
             </div>
