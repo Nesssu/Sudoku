@@ -52,13 +52,5 @@ export default function makingBoard() {
         board.push(buf);
         buf = [];
     }
-    let squares = side * side;
-    let empties = Math.floor(squares * 3 / 4);
-    let squaresArray = range(0, squares);
-    squaresArray = shuffle(squaresArray);
-    let sampleArray = squaresArray.slice(0, empties);
-    for (var p of sampleArray) {
-        board[Math.floor(p / side)][p % side] = 0;
-    }
     return board;
 }
