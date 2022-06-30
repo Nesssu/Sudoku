@@ -3,7 +3,7 @@ html {
 }
 
 .main-container {
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     justify-content: center;
     align-items: center;
@@ -14,11 +14,98 @@ html {
     align-items: center;
     text-align: center;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     width: 100%;
     height: 100%;
 }
+
 .menu-area {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.board-area {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.button-area {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column; 
+}
+
+.btn-row-1 {
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+    width: 60%;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-1 {
+    width: 100%;
+    padding: 10px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    background-color: #92d9e0;
+    border-style: solid;
+    border-radius: 10px;
+    border-color: #72bdc4;
+    color: white;
+    transition: all 0.5s;
+}
+
+.btn-1:hover {
+    cursor: pointer;
+    background-color: #72bdc4;
+}
+
+.btn-row-3 {
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+    width: 60%;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.btn-3 {
+    width: 50px;
+    padding: 10px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    background-color: #92d9e0;
+    border-style: solid;
+    border-radius: 10px;
+    border-color: #72bdc4;
+    color: white;
+    transition: all 0.5s;
+}
+
+.btn-3:hover {
+    cursor: pointer;
+    background-color: #72bdc4;
+}
+
+.starting-area {
     width: 100%;
     height: 100%;
     justify-content: center;
@@ -28,14 +115,6 @@ html {
     flex-direction: column;
 }
 
-.button-area {
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    display: flex;
-    flex-direction: row;
-}
-
 .play-button {
     background-color: #92d9e0;
     color: white;
@@ -43,8 +122,10 @@ html {
     padding-bottom: 0px;
     padding-left: 30px;
     padding-right: 30px;
-    border-style: none;
+    border-style: solid;
     border-radius: 15px;
+    border-color: #72bdc4;
+    transition: all 0.5s;
 }
 
 .play-button:hover {
@@ -62,26 +143,6 @@ html {
     text-align: center;
     justify-content: center;
     align-items: center;
-}
-
-.reset-button {
-    color: white;
-    background-color: #92d9e0;
-    padding-left: 20px;
-    padding-right: 20px;
-    border-style: none;
-    border-radius: 10px;
-    margin-left: 30px;
-}
-
-.goback-button {
-    color: white;
-    background-color: #92d9e0;
-    padding-left: 20px;
-    padding-right: 20px;
-    border-style: none;
-    border-radius: 10px;
-    margin-right: 30px;
 }
 
 .text-button {
