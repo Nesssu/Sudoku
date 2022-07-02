@@ -19,11 +19,19 @@ const range = (start, end) => {
     return list;
 }
 
-export default function deletingNumbers(board) {
+export default function deletingNumbers(board, difficulty) {
+    let diff = 0;
+    if (difficulty === "easy") {
+        diff = 6 / 12;
+    } else if (difficulty === "normal") {
+        diff = 7 / 12;
+    } else {
+        diff = 8 / 12;
+    }
     let base = 3;
     let side = base * base;
     let squares = side * side;
-    let empties = Math.floor(squares * 3 / 4);
+    let empties = Math.floor(squares * diff);
     let squaresArray = range(0, squares);
     squaresArray = shuffle(squaresArray);
     let sampleArray = squaresArray.slice(0, empties);

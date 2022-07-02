@@ -4,21 +4,22 @@ import './index.css';
 import makingBoard from './makingBoard';
 import deletingNumbers from './deletingNumbers';
 import {cloneDeep} from 'lodash';
+import CustomPopup from './CustomPopup';
 
 const handleSelect = (id, setSelectedId, getSelectedId) => {
     let elemToAdd = document.getElementById(id);
     let oldIndex = getSelectedId();
     let elem = document.createElement('Circle');
     elem.classList.add("circle");
+    elemToAdd.appendChild(elem);
     if (oldIndex != null) {
         let elemToDelete = document.getElementById(oldIndex);
         if (elemToDelete != null && elemToDelete.lastChild != null) {
-            if (elemToDelete.lastChild.classList[0] == "circle") {
+            if (elemToDelete.lastChild.classList[0] === "circle") {
                 elemToDelete.removeChild(elemToDelete.lastChild);
             }
         }
     }
-    elemToAdd.appendChild(elem);
     setSelectedId(id);
 };
 
@@ -28,7 +29,7 @@ const Number = (props) => {
     if (props.playable) {
         return (
             <div className="number-container playable" id={id} onClick={() => handleSelect(id, props.setSelectedId, props.getSelectedId)}>
-                {props.value == 0 ? <p className='number-1'></p> : <p className='number-1'>{props.value}</p>}
+                {props.value === 0 ? <p className='number-1'></p> : <p className='number-1'>{props.value}</p>}
             </div>
         )
     } else {
@@ -41,7 +42,6 @@ const Number = (props) => {
 };
 
 const Square = (props) => {
-    let id = 1;
     return (
         <div className="square-container vertical-direction">
             <div className="horizontal-direction">
@@ -94,9 +94,11 @@ const Game =() => {
     const [board, setBoard] = React.useState(null);
     const [solvedBoard, setSolvedBoard] = React.useState(null);
     const [playableBoard, setPlayableBoard] = React.useState(null);
+    const [originalBoard, setOriginalBoard] = React.useState(null);
     const [newGame, setNewGame] = React.useState(0);
     const [update, setUpdate] = React.useState(0);
     const [selectedId, setSelectedId] = React.useState(null);
+    const [popupVisibility, setPopupVisibility] = React.useState(false);
 
     const getSelectedId = () => { return selectedId; }
 
@@ -117,17 +119,26 @@ const Game =() => {
         const MAIN = 0; const SECONDARY = 1;
         if (IdToAdd != null) {
             if (board != null) {
-                board[IdToAdd[MAIN]][IdToAdd[SECONDARY]] = number;
+                if (board[IdToAdd[MAIN]][IdToAdd[SECONDARY]] === number) {
+                    board[IdToAdd[MAIN]][IdToAdd[SECONDARY]] = 0;
+                } else {
+                    board[IdToAdd[MAIN]][IdToAdd[SECONDARY]] = number;
+                }
                 setUpdate(!update);
             }
         }
+    }
+
+    const startOver = () => {
+        setBoard(cloneDeep(originalBoard));
+        setUpdate(!update);
     }
 
     const startNewGame = () => {
         if (selectedId != null) {
             let elemToDelete = document.getElementById(selectedId);
             if (elemToDelete != null && elemToDelete.lastChild != null) {
-                if (elemToDelete.lastChild.classList[0] == "circle") {
+                if (elemToDelete.lastChild.classList[0] === "circle") {
                     elemToDelete.removeChild(elemToDelete.lastChild);
                 }
             }
@@ -139,10 +150,38 @@ const Game =() => {
         setNewGame(1);
     }
 
-    // RUNS ONCE EVERYTIME THE PAGE GETS RELOADED
+    const guess = () => {
+        if (selectedId != null) {
+            let elemToComment = document.getElementById(selectedId);
+            let childParagraph = elemToComment.firstChild;
+            childParagraph.classList.add("comment");
+        }
+    }
+
+    const finishGame = () => {
+        if (JSON.stringify(board) === JSON.stringify(solvedBoard)) {
+            window.alert("Congratulations! You won filled the puzzle succesfully!");
+        }
+    }
+
+    const clearCursor = () => {
+        if (selectedId != null) {
+            let elemToDelete = document.getElementById(selectedId);
+            if (elemToDelete != null && elemToDelete.lastChild != null) {
+                if (elemToDelete.lastChild.classList[0] === "circle") {
+                    elemToDelete.removeChild(elemToDelete.lastChild);
+                }
+            }
+        }
+    }
+
+    const popupCloseHandler = (e) => {
+        setPopupVisibility(e);
+      };
+
     React.useEffect(() => {
         var ifNewGame = JSON.parse(localStorage.getItem("newGame"));
-        if (ifNewGame == undefined) {
+        if (ifNewGame === undefined) {
             localStorage.setItem("newGame", JSON.stringify(true));
             let newSolvedBoard = makingBoard();
             setSolvedBoard(cloneDeep(newSolvedBoard));
@@ -153,16 +192,17 @@ const Game =() => {
             setBoard(JSON.parse(localStorage.getItem("gameBoard")));
             setSolvedBoard(JSON.parse(localStorage.getItem("solvedGameBoard")));
             setPlayableBoard(JSON.parse(localStorage.getItem("playableGameBoard")));
+            setOriginalBoard(JSON.parse(localStorage.getItem("originalGameBoard")));
         }
     }, []);
 
     React.useEffect(() => {
-        if (newGame == 1) {
+        if (newGame === 1) {
             let tempArray = [];
             for (let i = 0; i < 9; i++) {
                 let temp = [];
                 for (let j = 0; j < 9; j++) {
-                    if (board[i][j] == 0) {
+                    if (board[i][j] === 0) {
                         temp.push(true);
                     } else {
                         temp.push(false);
@@ -171,6 +211,7 @@ const Game =() => {
                 tempArray.push(temp);
             }
             setPlayableBoard(cloneDeep(tempArray));
+            setOriginalBoard(board);
             setNewGame(0);
         }
     }, [newGame]);
@@ -185,6 +226,9 @@ const Game =() => {
     }
     if (playableBoard != null) {
         localStorage.setItem("playableGameBoard", JSON.stringify(playableBoard));
+    }
+    if (originalBoard != null) {
+        localStorage.setItem("originalGameBoard", JSON.stringify(originalBoard));
     }
 
     if (board != null && playableBoard != null) {
@@ -207,9 +251,17 @@ const Game =() => {
                     </div>
                     <div className="button-area">
                         <div className='btn-row-1'>
-                            <button  className='btn-1' onClick={() => {startNewGame();}}>
+                            <button  className='btn-1' onClick={() => {setPopupVisibility(!popupVisibility)}}>
                                 New Game
                             </button>
+                            <CustomPopup
+                                onClose={popupCloseHandler}
+                                show={popupVisibility}
+                                title="Hello Jeetendra"
+                            >
+                                <h1>Hello This is Popup Content Area</h1>
+                                <h2>This is my lorem ipsum text here!</h2>
+                            </CustomPopup>
                         </div>
                         <div className='btn-row-3'>
                             <button className='btn-3' onClick={() => {insertIntoBoard(7);}}>7</button>
@@ -227,10 +279,13 @@ const Game =() => {
                             <button className='btn-3' onClick={() => {insertIntoBoard(3);}}>3</button>
                         </div>
                         <div className='btn-row-1'>
-                            <button className='btn-1'>Empty board</button>
+                            <button className='btn-1' onClick={guess}>Guess</button>
                         </div>
                         <div className='btn-row-1'>
-                            <button className='btn-1'>Finish</button>
+                            <button className='btn-1' onClick={startOver}>Start Over</button>
+                        </div>
+                        <div className='btn-row-1'>
+                            <button className='btn-1' onClick={finishGame}>Finish</button>
                         </div>
                     </div>
                 </div>
