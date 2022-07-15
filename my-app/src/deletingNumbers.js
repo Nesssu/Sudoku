@@ -20,18 +20,18 @@ const range = (start, end) => {
 }
 
 export default function deletingNumbers(board, difficulty) {
-    let diff = 0;
-    if (difficulty === "easy") {
-        diff = 6 / 12;
-    } else if (difficulty === "normal") {
-        diff = 7 / 12;
-    } else {
-        diff = 8 / 12;
-    }
     let base = 3;
     let side = base * base;
     let squares = side * side;
-    let empties = Math.floor(squares * diff);
+    let diff = 0;
+    if (difficulty === "Hard") {
+        diff = squares * 18 / 24;
+    } else if (difficulty === "Normal") {
+        diff = squares * 17 / 24;
+    } else {
+        diff = squares * 16 / 24;
+    }
+    let empties = Math.floor(diff);
     let squaresArray = range(0, squares);
     squaresArray = shuffle(squaresArray);
     let sampleArray = squaresArray.slice(0, empties);

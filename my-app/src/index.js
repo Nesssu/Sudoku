@@ -99,6 +99,7 @@ const Game =() => {
     const [update, setUpdate] = React.useState(0);
     const [selectedId, setSelectedId] = React.useState(null);
     const [popupVisibility, setPopupVisibility] = React.useState(false);
+    const [difficulty, setDifficulty] = React.useState(null);
 
     const getSelectedId = () => { return selectedId; }
 
@@ -145,7 +146,7 @@ const Game =() => {
         }
         let newSolvedBoard = makingBoard();
         setSolvedBoard(cloneDeep(newSolvedBoard));
-        let newBoard = deletingNumbers(newSolvedBoard);
+        let newBoard = deletingNumbers(newSolvedBoard, difficulty);
         setBoard(cloneDeep(newBoard));
         setNewGame(1);
     }
@@ -177,9 +178,14 @@ const Game =() => {
 
     const popupCloseHandler = (e) => {
         setPopupVisibility(e);
-      };
+    };
+
+    const onChangeValue = (event) => {
+        setDifficulty(event.target.value);
+    }
 
     React.useEffect(() => {
+        document.body.style.overflow = "hidden";
         var ifNewGame = JSON.parse(localStorage.getItem("newGame"));
         if (ifNewGame === undefined) {
             localStorage.setItem("newGame", JSON.stringify(true));
@@ -257,10 +263,18 @@ const Game =() => {
                             <CustomPopup
                                 onClose={popupCloseHandler}
                                 show={popupVisibility}
-                                title="Hello Jeetendra"
+                                title="Select difficulty"
                             >
-                                <h1>Hello This is Popup Content Area</h1>
-                                <h2>This is my lorem ipsum text here!</h2>
+                                <div onChange={onChangeValue}>
+                                    <input type="radio" value="Easy" name="difficulty" /> Easy
+                                    <input type="radio" value="Normal" name="difficulty" /> Normal
+                                    <input type="radio" value="Hard" name="difficulty" /> Hard
+                                </div>
+                                <div>
+                                    <button className='playButton' onClick={() => {startNewGame(); setPopupVisibility(!popupVisibility);}}>
+                                        Play
+                                    </button>
+                                </div>
                             </CustomPopup>
                         </div>
                         <div className='btn-row-3'>
